@@ -69,6 +69,8 @@ public class MapActivity extends AppCompatActivity {
 
         }else if(sensorType==Sensor.TYPE_STEP_DETECTOR){
 
+        }else if(sensorType==Sensor.TYPE_ORIENTATION){
+
         }
     }
 }
