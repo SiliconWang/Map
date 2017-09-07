@@ -53,10 +53,43 @@ public class MapActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerEventListener(Sensor.TYPE_STEP_DETECTOR);
+        registerEventListener(Sensor.TYPE_STEP_COUNTER);
+        registerEventListener(Sensor.TYPE_ORIENTATION);
+    }
+    @Override
+    protected void onStop()
+    {
+        // 程序退出时取消注册传感器监听器
+        sensorManager.unregisterListener(sensorEventListener);
+        super.onStop();
+    }
+    @Override
+    protected void onPause()
+    {
+        // 程序暂停时取消注册传感器监听器
+        sensorManager.unregisterListener(sensorEventListener);
+        super.onPause();
+    }
+
     private SensorEventListener sensorEventListener=new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-
+            float[] values=event.values;
+            int sensorType=event.sensor.getType();
+            switch (sensorType){
+                case Sensor.TYPE_ORIENTATION:
+                    break;
+                case Sensor.TYPE_STEP_COUNTER:
+                    break;
+                case Sensor.TYPE_STEP_DETECTOR:
+                    break;
+                default:
+                    ;
+            }
         }
 
         @Override
@@ -65,12 +98,24 @@ public class MapActivity extends AppCompatActivity {
         }
     };
     private void registerEventListener(int sensorType){
-        if(sensorType==Sensor.TYPE_STEP_COUNTER) {
-
-        }else if(sensorType==Sensor.TYPE_STEP_DETECTOR){
-
-        }else if(sensorType==Sensor.TYPE_ORIENTATION){
-
+        switch (sensorType){
+            case Sensor.TYPE_ORIENTATION:
+                sensorManager.registerListener(sensorEventListener,
+                        sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                        SensorManager.SENSOR_DELAY_GAME);
+                break;
+            case Sensor.TYPE_STEP_COUNTER:
+                sensorManager.registerListener(sensorEventListener,
+                        sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
+                        SensorManager.SENSOR_DELAY_GAME);
+                break;
+            case Sensor.TYPE_STEP_DETECTOR:
+                sensorManager.registerListener(sensorEventListener,
+                        sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR),
+                        SensorManager.SENSOR_DELAY_GAME);
+                break;
+            default:
+                ;
         }
     }
 }
