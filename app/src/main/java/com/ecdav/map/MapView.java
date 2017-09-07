@@ -33,7 +33,7 @@ public class MapView extends SurfaceView implements SurfaceHolder.Callback{
      *一般变量
      */
     private final SurfaceHolder surfaceHolder=getHolder();//获取surfaceHodler
-    private DrawThread drawThread=null;//定义DrawThread类的实例
+    public DrawThread drawThread=null;//定义DrawThread类的实例
     /**
      * 与地图移动相关的变量
      */
@@ -107,6 +107,7 @@ public class MapView extends SurfaceView implements SurfaceHolder.Callback{
         /**
          * 运行必须参数
          */
+        private PointerStatus pointerStatus=new PointerStatus(0,0,0);
         private SurfaceHolder surfaceHolder=null;
         private Canvas canvas=null;
         public boolean isRun=true;
@@ -125,6 +126,9 @@ public class MapView extends SurfaceView implements SurfaceHolder.Callback{
         public DrawThread(SurfaceHolder surfaceHolder){
             this.surfaceHolder=surfaceHolder;
             getMapPictures();
+        }
+        public void setPointerStatus(PointerStatus pointerStatus){
+            this.pointerStatus=pointerStatus;
         }
         private void getMapPictures(){
             for(int i=0;i<yPiece;i++){
@@ -174,7 +178,13 @@ public class MapView extends SurfaceView implements SurfaceHolder.Callback{
                             canvas.drawBitmap(mapPictures[j][i],pieceWidth*i,pieceHeight*j,null);
                         }
                     }
-                    canvas.drawBitmap(pointer,(int)x,(int)y,null);
+                    if(pointerStatus.x+pointer.getWidth()/2>=screenDx&&pointerStatus.y+pointer.getHeight()/2>=screenDy)
+                    {
+                        canvas.translate((float)pointerStatus.x-screenDx,(float)pointerStatus.y-screenDy);
+                        canvas.rotate(pointerStatus.direction);
+                        canvas.drawBitmap(pointer,0,0,null);
+                    }
+
                 }
             }
             catch (Exception e){

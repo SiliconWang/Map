@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MapActivity extends AppCompatActivity {
+    private PointerStatus pointerStatus=new PointerStatus(0,0,0);
     private SensorManager sensorManager=null;
+    private MapView mapView=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class MapActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        mapView=(MapView)findViewById(R.id.map_view);
+        mapView.drawThread.setPointerStatus(pointerStatus);
     }
 
     @Override
@@ -82,6 +86,7 @@ public class MapActivity extends AppCompatActivity {
             int sensorType=event.sensor.getType();
             switch (sensorType){
                 case Sensor.TYPE_ORIENTATION:
+                    pointerStatus.direction=values[0];
                     break;
                 case Sensor.TYPE_STEP_COUNTER:
                     break;

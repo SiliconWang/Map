@@ -6,6 +6,11 @@ package com.ecdav.map;
 
 public class PointerStatus {
     public float direction;
-    public int x;
-    public int y;
+    public float x;
+    public float y;
+    public PointerStatus(float x,float y,float direction){
+        this.x=x;
+        this.y=y;
+        this.direction=direction;
+    }
 }
