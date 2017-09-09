@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -180,12 +181,19 @@ public class MapView extends SurfaceView implements SurfaceHolder.Callback{
                             canvas.drawBitmap(mapPictures[j][i],pieceWidth*i,pieceHeight*j,null);
                         }
                     }
+                    canvas.save();
+                    canvas.translate(-screenDx,-screenDy);
+                    canvas.rotate(pointerStatus.direction,pointerStatus.x,pointerStatus.y);
+                    canvas.drawBitmap(pointer,pointerStatus.x-pointer.getWidth()/2,pointerStatus.y-pointer.getHeight()/2,null);
+                    /*
                     if(pointerStatus.x+pointer.getWidth()/2>=screenDx&&pointerStatus.y+pointer.getHeight()/2>=screenDy)
                     {
                         canvas.translate((float)pointerStatus.x-screenDx,(float)pointerStatus.y-screenDy);
-                        canvas.rotate(pointerStatus.direction);
+                        canvas.rotate(pointerStatus.direction,0,0);
                         canvas.drawBitmap(pointer,-pointer.getWidth()/2,-pointer.getHeight()/2,null);
+
                     }
+                    */
 
                 }
             }
