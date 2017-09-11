@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MapActivity extends AppCompatActivity {
-    private PointerStatus pointerStatus=new PointerStatus(2000,1950,0);
+    private PointerStatus pointerStatus=new PointerStatus(100,100,0);
     private SensorManager sensorManager=null;
     private MapView mapView=null;
     @Override
